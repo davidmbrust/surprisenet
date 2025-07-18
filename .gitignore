@@ -1,0 +1,42 @@
+# General
+.DS_Store
+__pycache__/
+*.py[cod]
+*.so
+
+# Virtual environments
+.env/
+.venv/
+
+# Jupyter & IPython
+.ipynb_checkpoints/
+
+# Logs
+logs/
+*.log
+
+# Data artifacts (large / private)
+data/
+preprocessed_data/
+image_reconstructions/*
+figures/*
+Videos/*
+*.pth
+*.pt
+*.npz
+*.npy
+*.h5
+*.ckpt
+*er.pdf
+conv_autoencoder
+convlstm_classifier
+
+# Model checkpoints
+checkpoints/
+models/*
+LSTM_models/*
+encoder_models/*
+
+# Other
+.idea/
+.vscode/
