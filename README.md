@@ -3,7 +3,7 @@
 SurpriseNet is an experimental framework for studying **internal network dynamics** when deep neural networks encounter **surprising or unexpected events** in naturalistic video streams.  The codebase combines multiple spatial auto-encoders with a temporal LSTM head and instruments the model so that per-layer weights and activations can be logged whenever the network detects a surprise. The project is inspired by research on predictive coding, and a desire to perform brain imaging analysis of surprise using neural networks, and my existing work on EEG video analysis. This project is an extention of the work I performed at Vanderbilt University and a proposal for future research.
 
 Please see the white-paper for my exploratory analysis and explanations of the network design.
-[📄 View the Whitepaper](docs/Surprise_Whitepaper.pdf)
+[📄 View the Whitepaper](docs/Surprise_WhitePaper.pdf)
 
 ## Purpose and White-Paper Scope
 This repository supports a white-paper proposing new research directions in computational neuroscience and machine learning:
