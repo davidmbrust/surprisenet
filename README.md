@@ -1,8 +1,9 @@
 # SurpriseNet
 
-Draft – will be refined before publication
+SurpriseNet is an experimental framework for studying **internal network dynamics** when deep neural networks encounter **surprising or unexpected events** in naturalistic video streams.  The codebase combines multiple spatial auto-encoders with a temporal LSTM head and instruments the model so that per-layer weights and activations can be logged whenever the network detects a surprise. The project is inspired by research on predictive coding, and a desire to perform brain imaging analysis of surprise using neural networks, and my existing work on EEG video analysis. This project is an extention of the work I performed at Vanderbilt University and a proposal for future research.
 
-SurpriseNet is an experimental framework for studying **internal network dynamics** when deep neural networks encounter **surprising or unexpected events** in naturalistic video streams.  The codebase combines multiple spatial auto-encoders with a temporal LSTM head and instruments the model so that per-layer weights and activations can be logged whenever the network detects a surprise.
+Please see the white-paper for my exploratory analysis and explanations of the network design.
+[📄 View the Whitepaper](docs/Surprise_Whitepaper.pdf)
 
 ## Purpose and White-Paper Scope
 This repository supports a white-paper proposing new research directions in computational neuroscience and machine learning:
@@ -20,32 +21,56 @@ Key components:
 2. **Temporal LSTM** – Processes latent sequences, predicting the next latent and estimating prediction error.
 3. **Surprise Trigger** – When reconstruction / prediction error exceeds an adaptive threshold, internal weights and activations are snap-shotted for subsequent analysis.
 
-## Repository Layout (initial)
+## Repository Layout
 ```
 whitenet/
-├── data/                # DO NOT commit – raw & processed datasets (git-ignored)
-├── models/              # Network definitions & checkpoints
-├── notebooks/           # Exploratory analysis / prototyping
-├── scripts/             # Training, evaluation & instrumentation scripts
-└── README.md            # This file
+├── encoder_models/        # Trained frame-encoder checkpoints (git-ignored)
+├── LSTM_models/           # Trained LSTM checkpoints (git-ignored)
+├── preprocessed_data/     # Intermediate tensors (git-ignored)
+├── Videos/                # Source video clips (git-ignored)
+├── figures/               # Figures used in the white-paper (git-ignored)
+├── image_reconstructions/ # Reconstruction outputs & visualisations (git-ignored)
+├── *.py                   # Training / inference / visualisation scripts
+├── README.md              # Project overview (this file)
+├── .gitignore             # Ignore patterns for data & checkpoints
+└── requirements.txt       # Python dependencies
 ```
 
-## Quick Start
-1. Clone the repo (after this draft is pushed).
-2. Create a virtual environment with Python ≥3.9.
-3. Install dependencies:
+## Quick Start  
+(GPU strongly recommended)
+
+1. Create and activate a Python ≥3.9 virtual environment then install requirements:
    ```bash
+   python -m venv .venv
+   source .venv/bin/activate      # Windows: .venv\Scripts\activate
    pip install -r requirements.txt
    ```
-4. Download or generate a video dataset and place it under `data/raw/` (ignored by git).
-5. Run the preprocessing & training pipeline:
+2. Place four baseline videos in `Videos/` with the exact filenames
+   ```text
+   Videos/
+   ├── City_Video.mp4
+   ├── Forest_Video.mp4
+   ├── Ocean_Video.mp4
+   └── Stock_Video.mp4
+   ```
+   (Any additional clips are fine – update the lists in the dataset modules if you add more.)
+3. Compute dataset normalisation statistics (creates `preprocessed_data/encoder_mean_std.pth`):
    ```bash
-   python scripts/preprocess.py
-   python scripts/train.py
+   python VideoData.py
+   ```
+4. Train convolutional auto-encoders (checkpoints saved to `encoder_models/`):
+   ```bash
+   python AutoEncoder.py
+   ```
+5. Train the temporal LSTM classifier (checkpoints saved to `LSTM_models/`):
+   ```bash
+   python EncoderLSTM.py
+   ```
+6. Run inference & visualisation:
+   ```bash
+   python Inference.py           # interactive plots
+   # or
+   python VideoInference.py      # saves probabilities & activations
    ```
 
-## Acknowledgements
-The project is inspired by research on predictive coding, brain imaging analysis of surprise, and recent work on self-supervised video representation learning.
-
----
-*This README is a draft. Feel free to edit, expand, or reshape before the first public release.*
+Large files (videos, checkpoints, tensors) are excluded from version control via `.gitignore`.

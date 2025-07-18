@@ -27,7 +27,8 @@ Videos/*
 *.npy
 *.h5
 *.ckpt
-*er.pdf
+*coder.pdf
+*ier.pdf
 conv_autoencoder
 convlstm_classifier
 
